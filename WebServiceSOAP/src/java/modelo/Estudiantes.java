@@ -47,21 +47,21 @@ public class Estudiantes implements Serializable {
     public Estudiantes() {
     }
 
-    public Estudiantes(Integer idEstudiante) {
+    public Estudiantes(int idEstudiante) {
         this.idEstudiante = idEstudiante;
     }
 
-    public Estudiantes(Integer idEstudiante, int cedulaEstudiante, String nombreEstudiante) {
+    public Estudiantes(int idEstudiante, int cedulaEstudiante, String nombreEstudiante) {
         this.idEstudiante = idEstudiante;
         this.cedulaEstudiante = cedulaEstudiante;
         this.nombreEstudiante = nombreEstudiante;
     }
 
-    public Integer getIdEstudiante() {
+    public int getIdEstudiante() {
         return idEstudiante;
     }
 
-    public void setIdEstudiante(Integer idEstudiante) {
+    public void setIdEstudiante(int idEstudiante) {
         this.idEstudiante = idEstudiante;
     }
 
@@ -80,7 +80,7 @@ public class Estudiantes implements Serializable {
     public void setNombreEstudiante(String nombreEstudiante) {
         this.nombreEstudiante = nombreEstudiante;
     }
-
+    
     @XmlTransient
     public Collection<Matriculas> getMatriculasCollection() {
         return matriculasCollection;
