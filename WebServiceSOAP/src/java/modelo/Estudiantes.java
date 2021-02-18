@@ -6,9 +6,9 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,8 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estudiantes.findAll", query = "SELECT e FROM Estudiantes e")
     , @NamedQuery(name = "Estudiantes.findByIdEstudiante", query = "SELECT e FROM Estudiantes e WHERE e.idEstudiante = :idEstudiante")
     , @NamedQuery(name = "Estudiantes.findByCedulaEstudiante", query = "SELECT e FROM Estudiantes e WHERE e.cedulaEstudiante = :cedulaEstudiante")
-    , @NamedQuery(name = "Estudiantes.findByNombreEstudiante", query = "SELECT e FROM Estudiantes e WHERE e.nombreEstudiante = :nombreEstudiante")
-    , @NamedQuery(name = "Estudiantes.findByFecha", query = "SELECT e FROM Estudiantes e WHERE e.fecha = :fecha")})
+    , @NamedQuery(name = "Estudiantes.findByNombreEstudiante", query = "SELECT e FROM Estudiantes e WHERE e.nombreEstudiante = :nombreEstudiante")})
 public class Estudiantes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,22 +43,29 @@ public class Estudiantes implements Serializable {
     @Basic(optional = false)
     @Column(name = "idEstudiante")
     private Integer idEstudiante;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "cedulaEstudiante")
-    private Integer cedulaEstudiante;
-    @Size(max = 50)
+    private int cedulaEstudiante;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombreEstudiante")
     private String nombreEstudiante;
-    @Column(name = "fecha")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
-    @OneToMany(mappedBy = "idEstudiante")
-    private List<Matriculas> matriculasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstudiante")
+    private Collection<Matriculas> matriculasCollection;
 
     public Estudiantes() {
     }
 
     public Estudiantes(Integer idEstudiante) {
         this.idEstudiante = idEstudiante;
+    }
+
+    public Estudiantes(Integer idEstudiante, int cedulaEstudiante, String nombreEstudiante) {
+        this.idEstudiante = idEstudiante;
+        this.cedulaEstudiante = cedulaEstudiante;
+        this.nombreEstudiante = nombreEstudiante;
     }
 
     public Integer getIdEstudiante() {
@@ -71,11 +76,11 @@ public class Estudiantes implements Serializable {
         this.idEstudiante = idEstudiante;
     }
 
-    public Integer getCedulaEstudiante() {
+    public int getCedulaEstudiante() {
         return cedulaEstudiante;
     }
 
-    public void setCedulaEstudiante(Integer cedulaEstudiante) {
+    public void setCedulaEstudiante(int cedulaEstudiante) {
         this.cedulaEstudiante = cedulaEstudiante;
     }
 
@@ -87,21 +92,13 @@ public class Estudiantes implements Serializable {
         this.nombreEstudiante = nombreEstudiante;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
     @XmlTransient
-    public List<Matriculas> getMatriculasList() {
-        return matriculasList;
+    public Collection<Matriculas> getMatriculasCollection() {
+        return matriculasCollection;
     }
 
-    public void setMatriculasList(List<Matriculas> matriculasList) {
-        this.matriculasList = matriculasList;
+    public void setMatriculasCollection(Collection<Matriculas> matriculasCollection) {
+        this.matriculasCollection = matriculasCollection;
     }
 
     @Override

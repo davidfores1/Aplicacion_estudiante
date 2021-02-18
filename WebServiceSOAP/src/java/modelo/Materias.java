@@ -6,9 +6,10 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -45,22 +47,35 @@ public class Materias implements Serializable {
     @Basic(optional = false)
     @Column(name = "idMateria")
     private Integer idMateria;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "codigoMateria")
-    private Integer codigoMateria;
-    @Size(max = 100)
+    private int codigoMateria;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nombreMateria")
     private String nombreMateria;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(mappedBy = "idMateria")
-    private List<Matriculas> matriculasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMateria")
+    private Collection<Matriculas> matriculasCollection;
 
     public Materias() {
     }
 
     public Materias(Integer idMateria) {
         this.idMateria = idMateria;
+    }
+
+    public Materias(Integer idMateria, int codigoMateria, String nombreMateria, Date fecha) {
+        this.idMateria = idMateria;
+        this.codigoMateria = codigoMateria;
+        this.nombreMateria = nombreMateria;
+        this.fecha = fecha;
     }
 
     public Integer getIdMateria() {
@@ -71,11 +86,11 @@ public class Materias implements Serializable {
         this.idMateria = idMateria;
     }
 
-    public Integer getCodigoMateria() {
+    public int getCodigoMateria() {
         return codigoMateria;
     }
 
-    public void setCodigoMateria(Integer codigoMateria) {
+    public void setCodigoMateria(int codigoMateria) {
         this.codigoMateria = codigoMateria;
     }
 
@@ -96,12 +111,12 @@ public class Materias implements Serializable {
     }
 
     @XmlTransient
-    public List<Matriculas> getMatriculasList() {
-        return matriculasList;
+    public Collection<Matriculas> getMatriculasCollection() {
+        return matriculasCollection;
     }
 
-    public void setMatriculasList(List<Matriculas> matriculasList) {
-        this.matriculasList = matriculasList;
+    public void setMatriculasCollection(Collection<Matriculas> matriculasCollection) {
+        this.matriculasCollection = matriculasCollection;
     }
 
     @Override

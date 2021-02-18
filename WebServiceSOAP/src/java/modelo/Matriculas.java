@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,14 +42,16 @@ public class Matriculas implements Serializable {
     @Basic(optional = false)
     @Column(name = "idMatricula")
     private Integer idMatricula;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "idEstudiante", referencedColumnName = "idEstudiante")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Estudiantes idEstudiante;
     @JoinColumn(name = "idMateria", referencedColumnName = "idMateria")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Materias idMateria;
 
     public Matriculas() {
@@ -56,6 +59,11 @@ public class Matriculas implements Serializable {
 
     public Matriculas(Integer idMatricula) {
         this.idMatricula = idMatricula;
+    }
+
+    public Matriculas(Integer idMatricula, Date fecha) {
+        this.idMatricula = idMatricula;
+        this.fecha = fecha;
     }
 
     public Integer getIdMatricula() {
