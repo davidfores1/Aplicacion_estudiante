@@ -28,5 +28,6 @@ public class EstudiantesFacade extends AbstractFacade<Estudiantes> implements Es
     public EstudiantesFacade() {
         super(Estudiantes.class);
     }
+
     
 }

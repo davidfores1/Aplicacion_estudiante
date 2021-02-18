@@ -46,7 +46,7 @@ public class webServiceEstudiantes {
     }
 
     @WebMethod(operationName = "find")
-    public Estudiantes find(@WebParam(name = "id") Object id) {
+    public Estudiantes find(@WebParam(name = "id") int id) {
         return ejbRef.find(id);
     }
 
